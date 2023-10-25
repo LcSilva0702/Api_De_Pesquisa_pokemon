@@ -15,7 +15,6 @@ class UserController {
                 })
             }
 
-
             const user = await User.create({
                 name,
                 email,

@@ -4,11 +4,14 @@ import mongoose from "mongoose"
 import routes from "./routes";
 const app = express();
 
-mongoose.connect('mongodb://localhost/firstapi');
-
 app.use(express.json());
 app.use(routes);
 
-app.listen(process.env.PORT, () => {
-    console.log(`Server running in ${process.env.PORT}`)
+app.listen(process.env.PORT, async () => {
+    try{
+        await mongoose.connect('mongodb://mongo/firstapi');
+    }catch(error){
+        console.log(error)
+    }
+    console.log(`Server running in ${process.env.PORT}`);
 });
