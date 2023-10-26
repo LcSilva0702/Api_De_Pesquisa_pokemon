@@ -16,7 +16,7 @@ const User = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-        select: false
+        select: true
     },
     CreatedAt: {
         type: Date,
@@ -27,11 +27,8 @@ const User = new mongoose.Schema({
 User.pre('save', async function (next) {
     try {
         const salts = await bcrypt.genSalt(5);
-        console.log(salts)
         const hashedPassword = await bcrypt.hash(this.password, salts);
-        console.log(this.password, hashedPassword)
         this.password = hashedPassword;
-        console.log(hashedPassword);
 
         next()
     } catch (error) {
