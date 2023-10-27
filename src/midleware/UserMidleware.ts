@@ -1,11 +1,10 @@
 import jwt from "jsonwebtoken";
 import { NextFunction, Request, Response } from "express";
-import User from "../database/schema";
 
 const senhaJWT: any = process.env.JSONPASSWORD;
 
 interface TokenPayload {
-    email: string,
+    _id: string,
     iat: number,
     exp: number
 }
@@ -23,9 +22,9 @@ class UserMiddleware {
         try {
             const user = await jwt.verify(token, senhaJWT);
 
-            const {email} = user as TokenPayload
+            const { _id } = user as TokenPayload
 
-            request.userEmail = email;
+            request.userId = _id;
 
             return next();
         } catch (error) {

@@ -34,6 +34,9 @@ User.pre('save', async function (next) {
     } catch (error) {
         console.log(error)
     }
-})
+});
+
+
+
 
 export default mongoose.model("User", User);

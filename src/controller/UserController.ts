@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import User from "../database/schema";
+import User from "../database/schemaUser";
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 
@@ -32,35 +32,34 @@ class UserController {
         }
     }
 
-    async find(request: Request, response: Response){
-        try {
-            const users = await User.find();
-            
+    async detailProfile(request: Request, response: Response){
+        const id = request.userId;
 
-            return response.status(200).json({users})
+        try {
+            const user: any = await User.findOne({ id });
+            
+            const userNoPassword = {
+                name: user.name,
+                email: user.email,
+                password: "****"
+            }
+
+            return response.status(200).json(userNoPassword);
         } catch (error) {
             return response.status(500).json({
                 error: "Something wrong happened, try again",
                 message: error
-            })
+            });
         }
     }
 
     async delete(request: Request, response: Response){
-        const { email } = request.body;
+        const id = request.userId;
 
         try {
-            const user = await User.findOne({ email });
+            const user = await User.findOne({ id });
 
-            if(!email){
-                return response.status(400).json("Insira o email");
-            }
-
-            if(!user){
-                return response.status(400).json("Usuario não existe");
-            }
-
-            await User.deleteOne({email: user.email});
+            await User.deleteOne({id: id});
 
             return response.status(204).json("Usuario deletado");
         } catch (error) {
@@ -71,26 +70,29 @@ class UserController {
         }
     }
 
-    async updateEmail(request: Request, response: Response){
-        const { email, novoEmail } = request.body
+    async updateProfile(request: Request, response: Response){
+        const id  = request.userId;
+        const { newName, newEmail, newPassword } = request.body;
 
         try {
-            const user = await User.findOne({ email });
-
-            if(!user){
-                return response.status(404).json("Usuario não existe");
+            if(newEmail){
+                await User.updateOne({id}, { email: newEmail });
             }
 
-            await User.updateOne({email}, { email: novoEmail });
+            if(newName){
+                await User.updateOne({id}, { name: newName});
+            }
 
-            const user2 = await User.findOne({ novoEmail });
-            
-            return response.status(200).json({user2})
+            if(newPassword){
+                await User.updateOne({id}, { password: newPassword });
+            }
+
+            return response.status(200).json("Atualizado");
         } catch (error) {
             return response.status(500).json({
                 error: "Something wrong happened, try again",
                 message: error
-            })
+            });
         }
     }
 
@@ -104,11 +106,11 @@ class UserController {
             }
 
             const user: any = await User.findOne({ email });
-
+            console.log(user)
             const verificarSenha = await bcrypt.compare(password, user.password);
             
             if(verificarSenha){
-                const token = await jwt.sign({email: user.email}, senhaJWT, {expiresIn: "360h"}); 
+                const token: string = await jwt.sign({id: user._id}, senhaJWT, {expiresIn: "360h"}); 
 
                 return response.status(201).json({
                     token

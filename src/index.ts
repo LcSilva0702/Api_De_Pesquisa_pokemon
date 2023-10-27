@@ -13,5 +13,5 @@ app.listen(process.env.PORT, async () => {
     }catch(error){
         console.log(error)
     }
-    console.log(`Server running in ${process.env.PORT}`);
+    console.log(`Server running in 3000`);
 });
