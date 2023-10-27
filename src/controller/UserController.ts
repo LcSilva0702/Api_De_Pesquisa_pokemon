@@ -26,7 +26,7 @@ class UserController {
             return response.json(user);
         } catch (error) {
             return response.status(500).send({
-                error: "Registro Falhou",
+                error: "Registration Failed",
                 message: error
             })
         }
@@ -59,9 +59,10 @@ class UserController {
         try {
             const user = await User.findOne({ id });
 
+
             await User.deleteOne({id: id});
 
-            return response.status(204).json("Usuario deletado");
+            return response.status(204).json("User deleted");
         } catch (error) {
             return response.status(500).json({
                 error: "Something wrong happened, try again",
@@ -102,11 +103,11 @@ class UserController {
         
         try {
             if(!email || !password){
-                return response.status(400).json("Verifique todos os campos")
+                return response.status(400).json("Check all fields")
             }
 
             const user: any = await User.findOne({ email });
-            console.log(user)
+
             const verificarSenha = await bcrypt.compare(password, user.password);
             
             if(verificarSenha){

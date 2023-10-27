@@ -1,17 +1,11 @@
 import mongoose from "mongoose";
 
 const Pokemon = new mongoose.Schema ({
-    pokemonName: {
+    name: {
         type: String
     },
     moves: {
         type: Array
-    },
-    height: {
-        type: Number
-    },
-    weigth: {
-        type: Number
     }
 });
 

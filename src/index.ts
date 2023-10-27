@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json());
 app.use(routes);
 
-app.listen(process.env.PORT, async () => {
+app.listen(3000, async () => {
     try{
         await mongoose.connect('mongodb://mongo/firstapi');
     }catch(error){

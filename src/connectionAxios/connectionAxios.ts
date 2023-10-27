@@ -5,4 +5,3 @@ const connectionPokeApi = axios.create({
 });
 
 export default connectionPokeApi;
-
