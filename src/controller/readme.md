@@ -78,6 +78,8 @@ Exemplo de erro (credenciais incorretas):
 }
 ```
 
+.
+
 Exemplo de erro (campos em branco):
 
 ```json
