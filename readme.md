@@ -147,9 +147,9 @@ Exemplo de erro (ocorreu um erro inesperado):
 
 Este endpoint permite a atualização dos seguintes elementos, que devem ser passados no corpo da requisição:
 
-- Novo Nome
-- Novo Email
-- Nova Senha
+- newName
+- newEmail
+- newPassword
 
 Deve ser passado apenas os elementos que você deseja atualizar.
 
