@@ -18,8 +18,10 @@ class PokemonController {
                     
                 const pokemonApi = await Pokemon.create({
                     name: pokemon.data.name,
-                    moves: pokemon.data.moves
+                    types: pokemon.data.types
                 });
+
+                console.log(pokemonApi)
                     
                 return response.status(200).json(pokemonApi);
             }

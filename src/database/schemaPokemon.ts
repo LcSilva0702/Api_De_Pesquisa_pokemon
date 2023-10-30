@@ -4,7 +4,7 @@ const Pokemon = new mongoose.Schema ({
     name: {
         type: String
     },
-    moves: {
+    types: {
         type: Array
     }
 });
