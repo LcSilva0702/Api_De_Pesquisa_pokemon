@@ -23,7 +23,7 @@ class UserController {
                 password
             });
 
-            return response.json(user);
+            return response.status(201).json(user);
         } catch (error) {
             return response.status(500).send({
                 error: "Registration Failed",

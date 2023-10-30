@@ -3,6 +3,7 @@ import UserController from "./controller/UserController";
 import UserMiddleware from "./midleware/UserMidleware";
 import PokemonController from "./controller/PokemonController";
 
+
 const routes = Router();
 
 routes.post("/user", UserController.create);

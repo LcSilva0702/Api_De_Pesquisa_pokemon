@@ -1,0 +1,261 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Api de pokemon",
+        "description": "N/A",
+        "termsOfService": "N/A",
+        "contact": {
+            "email": "lcsilva0702@gmail.com"
+        },
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000/",
+            "description": "Server para teste da api"
+        }
+    ],
+    "paths": {
+        "/user": {
+            "post": {
+                "summary": "Cadastro de Usuario",
+                "description": "Esse endpoint será responsavel por registrar os usuarios",
+                "tags": ["User"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/createUser"
+                            },
+                            "examples": {
+                                "createUser": {
+                                    "value": {
+                                        "name": "Lucas",
+                                        "email": "lcsilva0702@gmail.com",
+                                        "password": "1234"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "User already exists"
+                    },
+                    "201": {
+                        "description": "User Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/createUser"
+                                   
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description":"Registration Failed"
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "summary": "Login do usuario",
+                "description": "Endppoint para logar o usuario",
+                "tags":["User"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/loginUser"
+                            },
+                            "examples": {
+                                "loginUser": {
+                                    "value": {
+                                        "email": "lcsilva0702@gmail.com",
+                                        "password": "1234"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description":"Login feito com sucesso"
+                    },
+                    "401": {
+                        "description": "email ou senha incorreto"
+                    },
+                    "500": {
+                        "description": "Something wrong happened, try again"
+                    }
+                }
+            }
+        },
+        "/detailProfile": {
+            "get": {
+                "summary": "Detalhes do usuario",
+                "description": "Esse endpoint detalha o perfil do usuario logado",
+                "tags": ["User"],
+                "security": [{ "bearerAuth": [] }],
+                "responses": {
+                    "200": {
+                        "description":"Dados do Usuario"
+                    },
+                    "500": {
+                        "description": "Something wrong happened, try again"
+                    },
+                    "401": {
+                        "description": "Usuario não logado"
+                    }
+                }
+            }
+        },
+        "/delete": {
+            "delete": {
+                "summary": "Deleta usuario",
+                "description": "Esse endpoint deleta o usuario logado",
+                "tags": ["User"],
+                "security": [{ "bearerAuth": [] }],
+                "responses": {
+                    "204": {
+                        "description": "Usuario deletado"
+                    },
+                    "401": {
+                        "description": "Usuario não logado"
+                    },
+                    "500": {
+                        "description": "Something wrong happened, try again"
+                    }
+                }
+            }
+        },
+        "/updateProfile": {
+            "put": {
+                "summary": "Atualiza os dados do usuarios",
+                "description": "Esse endpoint atualiza os dados do usuario",
+                "tags": ["User"],
+                "security": [{ "bearerAuth": [] }],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/updateProfile"
+                            },
+                            "examples": {
+                                "updateProfile":{
+                                    "value": {
+                                        "newEmail": "lcsilva0701@gmail.com",
+                                        "newName": "Lucas Costa",
+                                        "newPassword": "1234"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Atualizado"
+                    },
+                    "500": {
+                        "description": "Something wrong happened, try again"
+                    },
+                    "401": {
+                        "description": "Usuario não logado"
+                    }
+                }
+            }
+        },
+        "/pokemon/{name}": {
+            "get": {
+                "summary": "Retorna pokemons",
+                "description": "Esse endpoint retorna o pokemon desejado",
+                "Tags": ["Pokemon"],
+                "parameters": [{
+                    "in": "path",
+                    "name": "name",
+                    "type": "string",
+                    "required": "true",
+                    "description": "description of parameter",
+                    "schema": {
+                        "$ref": "#/components/schemas/searchPokemon"
+                    }
+                }],
+                "security": [{ "bearerAuth": [] }],
+                "responses": {
+                    "401": {
+                        "description": "Usuario não logado"
+                    },
+                    "200": {
+                        "description": "Pokemon encontrado"
+                    },
+                    "500": {
+                        "description": "Registration Failed"
+                    },
+                    "400": {
+                        "description": "Enter the name of the pokemon you want"
+                    }
+                }
+            }
+        }
+    }, 
+    "components": {
+        "schemas": {
+            "createUser": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "loginUser": {
+                "type": "object",
+                "properties": {
+                    "email": "string",
+                    "password": "string"
+                }
+            },
+            "updateProfile": {
+                "type": "object",
+                "properties": {
+                    "newName": {
+                        "type": "string"
+                    },
+                    "newEmail": {
+                        "type": "string"
+                    },
+                    "newPassword": {
+                        "type": "string"
+                    }
+                }
+            },
+            "searchPokemon": {
+                "type": "string",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}
