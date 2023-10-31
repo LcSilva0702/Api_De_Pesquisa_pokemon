@@ -175,7 +175,7 @@
             "get": {
                 "summary": "Retorna pokemons",
                 "description": "Esse endpoint retorna o pokemon desejado",
-                "Tags": ["Pokemon"],
+                "tags": ["Pokemon"],
                 "parameters": [{
                     "in": "path",
                     "name": "name",
