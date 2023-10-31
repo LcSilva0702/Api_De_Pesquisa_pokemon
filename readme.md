@@ -16,6 +16,11 @@ docker-compose down
 
 Se o projeto não conseguir iniciar os containers, consulte a documentação oficial do Docker em: [Instalação do Docker](https://docs.docker.com/get-docker/)
 
+
+## Swagger interativa da API 
+[Documentação](http://localhost:3000/api-docs")
+#### Obs:. O Docker precisa estar iniciado
+
 ## Registro de Usuário (POST /user)
 
 Neste endpoint, é possível registrar um novo usuário no banco de dados. Os seguintes campos são obrigatórios e devem ser passados no corpo da requisição:
